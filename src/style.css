@@ -1,0 +1,66 @@
+/*AUHT*/
+.login-background .register-background {
+  background-color: #f0f0f0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-demo {
+  background-color: #000000;
+}
+.input-group {
+    margin-bottom: 1rem;
+    text-align: left;
+  }
+
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    color: black;
+  }
+
+  input::placeholder {
+    color: rgba(58, 58, 58, 0.7);
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    background: black;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background: #a56c7f;
+  }
+
+  .switch-text {
+    margin-top: 10px;
+  }
+
+  .switch-text a {
+    color: white;
+    text-decoration: underline;
+  }
+
+  #registerSection.d-none {
+    display: none !important;
+  }
+

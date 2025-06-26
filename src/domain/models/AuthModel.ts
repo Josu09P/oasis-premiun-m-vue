@@ -5,10 +5,9 @@ export interface LoginModel {
 
 export interface RegisterModel {
     name: string;
-    lastname:string;
-    email:string;
-    phone: string;
+    lastname: string;
+    email: string;
     password: string;
+    phone: number;
     image?: string;
-    notification_token?:string;
 }

@@ -13,7 +13,7 @@ const routes = [
     component: () => import('@/presentation/pages/client/HomePage.vue')
   },
   {
-    path: '/auht',
+    path: '/auth',
     children: [
       {
         path: 'register',
