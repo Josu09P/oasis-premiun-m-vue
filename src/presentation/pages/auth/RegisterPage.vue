@@ -1,11 +1,7 @@
 <template>
   <div
-    class="d-flex align-items-center justify-content-center min-vh-100 position-relative text-white register-background"
-  >
-    <section
-      class="bg-light text-dark p-4 rounded-3 shadow-lg w-100"
-      style="max-width: 480px;"
-    >
+    class="d-flex align-items-center justify-content-center min-vh-100 position-relative text-white register-background">
+    <section class="bg-light text-dark p-4 rounded-3 shadow-lg w-100" style="max-width: 480px;">
       <header class="mb-4 text-center">
         <LogoMain />
         <p class="text-muted">Crea una nueva cuenta</p>
@@ -27,7 +23,9 @@
         </div>
         <div class="mb-3">
           <label class="form-label">Teléfono</label>
-          <input v-model="form.phone" type="text" class="form-control" required maxlength="9" />
+          <input v-model.number="form.phone" type="text" class="form-control" required maxlength="9" pattern="\d{9}"
+            placeholder="Max. 9 digitos" />
+
         </div>
         <div class="mb-3">
           <label class="form-label">Contraseña</label>
@@ -61,42 +59,19 @@ const form = ref<RegisterModel>({
   name: '',
   lastname: '',
   email: '',
-  phone: 0,
+  phone: null as unknown as number,
   password: ''
 })
 
 async function handleRegister() {
-    try {
-        loading.value = true
-        await RegisterUser(form.value)
-        router.push('/auth/login')
-    } catch (err: any) {
-        alert('Error al registrarse: ' + err.message)
-    } finally {
-        loading.value = false
-    }
+  try {
+    loading.value = true
+    await RegisterUser(form.value)
+    router.push('/auth/login')
+  } catch (err: any) {
+    alert('Error al registrarse: ' + err.message)
+  } finally {
+    loading.value = false
+  }
 }
 </script>
-
-<style scoped>
-.register-background {
-  background: linear-gradient(120deg, #4c4c4c, #a46b7f);
-}
-
-label {
-  font-weight: bold;
-}
-
-input {
-  background: rgba(255, 255, 255, 0.2);
-  color: black;
-}
-
-input::placeholder {
-  color: rgba(58, 58, 58, 0.7);
-}
-
-button:hover {
-  background-color: #a46b7f;
-}
-</style>

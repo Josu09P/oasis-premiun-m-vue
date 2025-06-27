@@ -1,5 +1,16 @@
-/*AUHT*/
-.login-background .register-background {
+/*======================================*/
+/*HOME CLIENTE*/
+/*======================================*/
+.container-all-home {
+  background-color: white;
+  color: black;
+}
+
+/*======================================*/
+/*AUTH -> LOGIN & REGISTER*/
+/*======================================*/
+.login-background,
+.register-background {
   background-color: #f0f0f0;
   height: 100vh;
   display: flex;
@@ -64,3 +75,6 @@
     display: none !important;
   }
 
+/*================================================*/
+/*CLIMA*/
+/*================================================*/

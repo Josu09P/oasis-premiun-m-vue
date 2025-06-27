@@ -1,7 +1,7 @@
 <template>
   <div
     class="d-flex align-items-center justify-content-center min-vh-100 position-relative text-white login-background">
-    <section id="loginSection" class="bg-light text-dark p-4 rounded-3 shadow-lg w-100" style="max-width: 420px;">
+    <section id="loginSection" class="bg-light shadow text-dark p-4 rounded-3 w-100" style="max-width: 420px;">
       <header class="mb-4 text-center">
         <LogoMain />
         <p class="text-muted">Ingresa tus credenciales para acceder</p>
@@ -34,6 +34,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { LoginUser } from '@/domain/usecases/auth/LoginUser'
 import LogoMain from '@/presentation/widgets/LogoMain.vue'
+import Swal from 'sweetalert2'
 
 const email = ref('')
 const password = ref('')
@@ -43,19 +44,30 @@ const router = useRouter()
 const handleLogin = async () => {
   try {
     loading.value = true
-    await LoginUser({ email: email.value, password: password.value })
-    // Redirige a dashboard o panel
-    router.push('/dashboard')
+
+    Swal.fire({
+      title: 'Espere un momento...',
+      text: 'Verificando credenciales...',
+      icon: 'info',
+      allowOutsideClick: false,
+      didOpen: () => Swal.showLoading(),
+    })
+
+    const route = await LoginUser({ email: email.value, password: password.value })
+
+    Swal.fire({
+      title: 'Inicio de sesión exitoso',
+      icon: 'success',
+      confirmButtonText: 'OK',
+    }).then(() => {
+      router.push(route) // ← redirige al dashboard según el rol
+    })
+
   } catch (err: any) {
-    alert('Error al iniciar sesión: ' + err.message)
+    Swal.fire('Error', 'Credenciales incorrectas o servidor no disponible', 'error')
   } finally {
     loading.value = false
   }
 }
-</script>
 
-<style scoped>
-.swal2-container {
-  z-index: 9999 !important;
-}
-</style>
+</script>

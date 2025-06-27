@@ -1,11 +1,16 @@
 import { defineStore } from 'pinia'
 
+// Pinia: stores/user.ts
 export const useUserStore = defineStore('user', {
   state: () => ({
     id: '',
     name: 'Usuario',
     email: '',
     token: '',
+    role: '',
+    route: '/',
+    image: '',
+    loginTime: 0, // ⬅️ tiempo de inicio en timestamp
   }),
   actions: {
     setUser(user: any) {
@@ -13,7 +18,15 @@ export const useUserStore = defineStore('user', {
       this.name = user.name
       this.email = user.email
       this.token = user.token
-      localStorage.setItem('userDetailOasisPremiun', JSON.stringify(user))
+      this.role = user.role
+      this.route = user.route
+      this.image = user.image || ''
+      this.loginTime = Date.now() // ⬅️ guardamos el tiempo actual
+
+      localStorage.setItem(
+        'userDetailOasisPremiun',
+        JSON.stringify({ ...user, loginTime: this.loginTime })
+      )
     },
     loadUserFromLocalStorage() {
       const data = localStorage.getItem('userDetailOasisPremiun')
@@ -31,6 +44,10 @@ export const useUserStore = defineStore('user', {
       this.name = 'Usuario'
       this.email = ''
       this.token = ''
+      this.role = ''
+      this.route = '/'
+      this.image = ''
+      this.loginTime = 0
       localStorage.removeItem('userDetailOasisPremiun')
     }
   }

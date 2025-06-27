@@ -24,6 +24,10 @@ const routes = [
         component: () => import('@/presentation/pages/auth/LoginPage.vue')
       }
     ]
+  },
+  {
+    path: '/admin/dashboard',
+    component: () => import('@/presentation/pages/admin/dashboard.vue')
   }
 ]
 
@@ -36,16 +40,20 @@ export const router = createRouter({
  - Protección de rutas privadas
  - Bloquear acceso a /auth/login si el usuario ya está logueado
 */
- router.beforeEach((to, _from, next) => {
+router.beforeEach((to, _from, next) => {
   const store = useUserStore()
   const isLoggedIn = !!store.id
 
-  if (to.path.startsWith('/dashboard') && !isLoggedIn) {
+  if (to.path.startsWith('/admin') && (!isLoggedIn || store.role !== 'ADMIN')) {
+    return next('/auth/login')
+  }
+
+  if (to.path.startsWith('/client') && (!isLoggedIn || store.role !== 'CLIENT')) {
     return next('/auth/login')
   }
 
   if (to.path.startsWith('/auth') && isLoggedIn) {
-    return next('/dashboard')
+    return next(store.route || '/')
   }
 
   next()
