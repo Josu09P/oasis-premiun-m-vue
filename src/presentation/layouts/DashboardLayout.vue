@@ -25,10 +25,10 @@ import HeaderTop from '@/presentation/widgets/admin/HeaderTop.vue';
   padding-left: 20px !important;
   margin: 0;
   background-color: #fff4ea !important;
-}
+}   
 
 .container-all-admin-dashboard {
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);*/
   border-radius: 1.3em;
   flex: 1;
   padding: 20px;

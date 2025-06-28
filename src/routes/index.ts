@@ -27,8 +27,18 @@ const routes = [
   },
   {
     path: '/admin/dashboard',
-    component: () => import('@/presentation/pages/admin/dashboard.vue')
-  }
+    children: [
+      {
+         path:'',
+         component: () => import('@/presentation/pages/admin/dashboard.vue'),
+    
+      },
+      {
+        path: 'categories',
+        component: () => import('@/presentation/pages/admin/categories/AccessDirectCategories.vue') 
+      }
+    ]
+  },
 ]
 
 export const router = createRouter({
