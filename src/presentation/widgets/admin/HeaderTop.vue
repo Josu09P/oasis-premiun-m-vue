@@ -104,11 +104,15 @@ onMounted(() => {
 
 <style scoped>
 header.header-top {
-    position: sticky;
-    top:20px !important;
-    z-index: 999;
-    border-radius: 1.3em;
-    margin-bottom: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  border-radius: 1.3em;
+  margin-bottom: 20px;
+  padding: 1rem;
+  min-height: 70px;
+  width: 100%;
+  max-width: 100%;
 }
 
 #toggle-sidebar {

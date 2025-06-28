@@ -47,17 +47,48 @@
 </template>
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user'
+import Swal from 'sweetalert2'
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 
+const router = useRouter()
 const store = useUserStore()
-const userName = document.getElementById('user-name')
-const userImage = document.getElementById('user-image')
+const ERROR_PAGE = '/error/401'
+const LOGIN_PAGE = '/auth/login'
+const VALID_ROLES = ['ADMIN', 'SUPER_ADMIN']
+const MAX_SESSION_TIME = 6 * 60 * 60 * 1000 // 6 horas en ms
 
-if (userName) userName.textContent = `👤 ${store.name}`
-if (userImage) {
-    userImage.setAttribute('src', store.image || DEFAULT_IMAGE)
-    userImage.setAttribute('alt', store.name)
-}
+onMounted(() => {
+  store.loadUserFromLocalStorage()
+
+  // Validación completa
+  const now = Date.now()
+  const { role, loginTime } = store
+
+  if (!VALID_ROLES.includes(role)) {
+    console.warn('Rol no permitido')
+    return router.replace(ERROR_PAGE)
+  }
+
+  if (now - loginTime > MAX_SESSION_TIME) {
+    Swal.fire('Sesión expirada', 'Por favor inicia sesión nuevamente.', 'warning').then(() => {
+      store.logout()
+      router.replace(LOGIN_PAGE)
+    })
+    return
+  }
+
+  // Mostrar datos visuales
+  const userImage = document.getElementById('user-image')
+  const userRole = document.getElementById('user-role')
+
+  if (userRole) userRole.textContent = `${store.role}`
+  if (userImage) {
+    console.log('ROL no encontrado')
+  }
+
+})
 
 </script>
 
@@ -175,10 +206,13 @@ aside.header-left .container-role p {
 }
 
 .main-content {
-    margin-left: 215px;
-    transition: all 0.3s ease-in-out;
-    padding: 0 1rem;
+  margin-left: 215px;
+  padding: 20px 1rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 }
+
 
 .main-content.full-width {
     margin-left: 0;

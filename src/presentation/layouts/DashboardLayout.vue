@@ -3,7 +3,7 @@
     <div id="sidebar" class="sidebar-container">
       <HeaderLeft />
     </div>
-    <div id="main-content" class="main-content">
+    <div id="main-content" class="main-content" style="display: flex; width: 100%;">
       <HeaderTop />
       <main class="container-all-admin-dashboard">
         <slot />
@@ -28,7 +28,6 @@ import HeaderTop from '@/presentation/widgets/admin/HeaderTop.vue';
 }
 
 .container-all-admin-dashboard {
-  background-color: #f5f5f585;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
   border-radius: 1.3em;
   flex: 1;
