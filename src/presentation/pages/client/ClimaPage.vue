@@ -1,5 +1,6 @@
 <template>
-  <div class="weather-app">
+  <HomeClientLayout>
+     <div class="weather-app">
     <!-- Fondo animado -->
     <div class="animated-background">
       <div class="cloud cloud-1"></div>
@@ -8,24 +9,14 @@
     </div>
 
     <div class="container mb-4 d-flex justify-content-center">
-  <form @submit.prevent="buscarCiudad" class="d-flex" style="gap: 10px; height: 40px;">
-    <input
-      v-model="ciudad"
-      type="text"
-      class="form-control shadow-sm border-3"
-      placeholder="Buscar ciudad..."
-      required
-      style="height: 100%; width: 300px;"
-    />
-    <button
-      type="submit"
-      class="btn"
-      style="height: 99%;border: 2px solid; background-color: gray; color: white;"
-    >
-      Buscar
-    </button>
-  </form>
-</div>
+      <form @submit.prevent="buscarCiudad" class="d-flex" style="gap: 10px; height: 40px;">
+        <input v-model="ciudad" type="text" class="form-control shadow-sm border-3" placeholder="Buscar ciudad..."
+          required style="height: 100%; width: 300px;" />
+        <button type="submit" class="btn" style="height: 99%;border: 2px solid; background-color: gray; color: white;">
+          Buscar
+        </button>
+      </form>
+    </div>
 
 
     <!-- Clima Actual -->
@@ -133,12 +124,14 @@
       {{ error }}
     </div>
   </div>
+  </HomeClientLayout>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { FetchForecastUseCase } from '@/domain/usecases/clima/FetchForecastUseCase'
 import type { ForecastData } from '@/domain/models/ForecastModel'
+import HomeClientLayout from '@/presentation/layouts/HomeClientLayout.vue'
 
 const ciudad = ref('Tarapoto')
 const unidades = ref<'metric' | 'imperial'>('metric')

@@ -4,47 +4,48 @@
       <h1 class="mb-0 text-truncate">Dashboard</h1>
     </div>
 
-    <div class="d-flex justify-content-center align-items-center  mb-4 container-role border"
+    <div class="d-flex justify-content-center align-items-center mb-4 container-role border"
       style="background-color: #f4f4f4; border-radius: 1.2rem;">
       <i class="bi bi-shield-lock-fill me-2"></i>
       <p class="mb-0 text-truncate text-uppercase" id="user-role" style="font-size: 13px; max-width: 200px;"></p>
     </div>
 
     <nav class="nav flex-column">
-      <a class="nav-link text-orange" href="/admin/home">
+      <RouterLink class="nav-link text-orange" to="/admin/dashboard">
         <i class="bi bi-house-door-fill me-2"></i>Inicio
-      </a>
-      <a class="nav-link text-dark" href="#">
+      </RouterLink>
+      <RouterLink class="nav-link text-dark" to="/admin/orders">
         <i class="bi bi-clipboard-data me-2"></i>Pedidos
-      </a>
-      <a class="nav-link text-dark" href="#">
+      </RouterLink>
+      <RouterLink class="nav-link text-dark" to="/admin/stock">
         <i class="bi bi-box-seam me-2"></i>Stock
-      </a>
-      <a class="nav-link text-dark" href="/admin/categories/DashboardCategories">
+      </RouterLink>
+      <RouterLink class="nav-link text-dark" to="/admin/sales">
         <i class="bi bi-graph-up-arrow me-2"></i>Ventas
-      </a>
-      <a class="nav-link text-dark" href="/admin/products/DashboardProducts">
+      </RouterLink>
+      <RouterLink class="nav-link text-dark" to="/admin/products">
         <i class="bi bi-boxes me-2"></i>Productos
-      </a>
-      <a class="nav-link text-dark" href="/admin/discounts/DashboardDiscounts">
+      </RouterLink>
+      <RouterLink class="nav-link text-dark" to="/admin/discount">
         <i class="bi bi-percent me-2"></i>Descuentos
-      </a>
-      <a class="nav-link text-dark" href="/admin/carousels/DashboardCarousel">
+      </RouterLink>
+      <RouterLink class="nav-link text-dark" to="/admin/carousel">
         <i class="bi bi-images me-2"></i>Carrusel
-      </a>
-      <a class="nav-link text-dark" href="/admin/roles/ListRoles">
+      </RouterLink>
+      <RouterLink class="nav-link text-dark" to="/admin/roles">
         <i class="bi bi-shield-lock-fill me-2"></i>Roles
-      </a>
-      <a class="nav-link text-dark" href="/admin/categories/DashboardCategories">
+      </RouterLink>
+      <RouterLink class="nav-link text-dark" to="/admin/address">
         <i class="bi bi-geo-alt-fill me-2"></i>Direcciones
-      </a>
-      <a class="nav-link text-dark" href="/admin/clients/DashboardClients">
+      </RouterLink>
+      <RouterLink class="nav-link text-dark" to="/admin/clients">
         <i class="bi bi-people-fill me-2"></i>Clientes
-      </a>
-      <a class="nav-link text-dark" href="/admin/dashboard/categories">
+      </RouterLink>
+      <RouterLink class="nav-link text-dark" to="/admin/categories">
         <i class="bi bi-tags-fill me-2"></i>Categorías
-      </a>
+      </RouterLink>
     </nav>
+
     <div class="d-flex justify-content-center align-items-center w-100 mt-auto container-footer">
       <p class="mb-0 text-truncate small text-muted">© 2025 Easypantry</p>
     </div>
@@ -57,7 +58,6 @@ import Swal from 'sweetalert2'
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
-
 const router = useRouter()
 const store = useUserStore()
 const ERROR_PAGE = '/error/401'
@@ -67,8 +67,6 @@ const MAX_SESSION_TIME = 6 * 60 * 60 * 1000 // 6 horas en ms
 
 onMounted(() => {
   store.loadUserFromLocalStorage()
-
-  // Validación completa
   const now = Date.now()
   const { role, loginTime } = store
 
@@ -85,18 +83,11 @@ onMounted(() => {
     return
   }
 
-  // Mostrar datos visuales
-  const userImage = document.getElementById('user-image')
   const userRole = document.getElementById('user-role')
-
   if (userRole) userRole.textContent = `${store.role}`
-  if (userImage) {
-    console.log('ROL no encontrado')
-  }
-
 })
-
 </script>
+
 
 <style>
 .container-initial {

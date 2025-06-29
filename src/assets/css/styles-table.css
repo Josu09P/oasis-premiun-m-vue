@@ -1,0 +1,35 @@
+.custom-table {
+  border-collapse: separate !important;
+  border-spacing: 0 10px !important;
+  width: 100%;
+}
+
+.custom-table th {
+  padding: 10px !important;
+  vertical-align: middle;
+  background-color: #f8f9fa !important;
+  border: none !important;
+  font-size: 14px;
+}
+
+.custom-table td {
+  vertical-align: middle;
+  background-color: rgba(227, 227, 227, 0.816) !important;
+  border: none !important;
+  font-size: 13px;
+}
+
+.img-thumbnail {
+  border-radius: 10px;
+  cursor: pointer;
+  object-fit: cover;
+}
+
+.img-thumbnail[src*="image-error.png"] {
+  opacity: 0.7;
+}
+
+#delete-button{
+  width: 100%;
+  max-width: 40px !important;
+}

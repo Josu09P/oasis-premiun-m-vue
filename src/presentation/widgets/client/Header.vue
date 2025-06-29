@@ -94,41 +94,34 @@
 
                             <ul class="navbar-nav menu-list list-unstyled d-flex gap-md-3 mb-0">
                                 <li class="nav-item">
-                                    <a href="/" class="nav-link">
+                                    <RouterLink to="/client/home" class="nav-link">
                                         <i class="bi bi-house-door-fill me-1"></i>Inicio
-                                    </a>
+                                    </RouterLink>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#products" class="nav-link">
+                                    <RouterLink to="/client/products" class="nav-link">
                                         <i class="bi bi-box-seam me-1"></i>Productos
-                                    </a>
+                                    </RouterLink>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#discounts" class="nav-link">
+                                    <RouterLink to="/client/discount" class="nav-link">
                                         <i class="bi bi-tags-fill me-1"></i>Descuentos
-                                    </a>
+                                    </RouterLink>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#reservation" class="nav-link">
-                                        <i class="bi bi-calendar-check-fill me-1"></i>Reservar
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#clima" class="nav-link">
+                                    <RouterLink to="/client/clima" class="nav-link">
                                         <i class="bi bi-cloud-sun-fill me-1"></i>Clima
-                                    </a>
+                                    </RouterLink>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#contact" class="nav-link">
+                                    <RouterLink to="/client/contact" class="nav-link">
                                         <i class="bi bi-envelope-fill me-1"></i>Contáctanos
-                                    </a>
+                                    </RouterLink>
                                 </li>
                             </ul>
-
-
                             <div class="d-none d-lg-flex align-items-end">
                                 <ul class="d-flex justify-content-center list-unstyled m-0">
-                                    <li style="margin-top: 5px;">
+                                    <li style="margin-top: 2px;">
                                         <span class="nav-link me-2" id="user-name"></span>
                                     </li>
                                     <li>
@@ -142,8 +135,9 @@
                                         </a>
 
                                     </li>
-                                    <li>
-                                        <i class="bi bi-door-closed-fill fs-5" id="cerrar-sesion-op" style="margin-left: 20px; color: gray;"></i>
+                                    <li style="margin-bottom: 5px;">
+                                        <i class="bi bi-door-closed-fill fs-5" id="cerrar-sesion-op"
+                                            style="margin-left: 20px; color: gray;"></i>
                                     </li>
                                 </ul>
                             </div>
@@ -162,52 +156,52 @@ import { useUserStore } from '@/stores/user' // ajusta según tu ruta real
 
 const userStore = useUserStore()
 onMounted(() => {
-  userStore.loadUserFromLocalStorage()
+    userStore.loadUserFromLocalStorage()
 
-  const userNameElement = document.getElementById('user-name')
-  if (userNameElement) {
-    const name = userStore.name
-    userNameElement.textContent = name ? `🪴 ${name}` : '🪨 Invitado'
-  }
+    const userNameElement = document.getElementById('user-name')
+    if (userNameElement) {
+        const name = userStore.name
+        userNameElement.textContent = name ? `🪴 ${name}` : '🪨 Invitado'
+    }
 
-  const cerrarSesionBtn = document.getElementById('cerrar-sesion-op')
-  if (cerrarSesionBtn) {
-    cerrarSesionBtn.addEventListener('click', async (event) => {
-      event.preventDefault()
+    const cerrarSesionBtn = document.getElementById('cerrar-sesion-op')
+    if (cerrarSesionBtn) {
+        cerrarSesionBtn.addEventListener('click', async (event) => {
+            event.preventDefault()
 
-      if (!userStore.token) {
-        const result = await Swal.fire({
-          title: 'No hay usuario en sesión',
-          text: '¿Quieres ir a la página de inicio de sesión?',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Ir al login',
-          cancelButtonText: 'Cancelar',
+            if (!userStore.token) {
+                const result = await Swal.fire({
+                    title: 'No hay usuario en sesión',
+                    text: '¿Quieres ir a la página de inicio de sesión?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ir al login',
+                    cancelButtonText: 'Cancelar',
+                })
+
+                if (result.isConfirmed) {
+                    window.location.href = '/auth/login'
+                }
+            } else {
+                const result = await Swal.fire({
+                    title: '¿Qué deseas hacer?',
+                    text: 'Estás actualmente en sesión',
+                    icon: 'question',
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    showConfirmButton: false,
+                    denyButtonText: 'Cerrar sesión',
+                    cancelButtonText: 'Cancelar',
+                })
+
+                if (result.isDenied) {
+                    userStore.logout()
+                    await Swal.fire('Sesión cerrada', 'Has cerrado sesión exitosamente', 'success')
+                    window.location.reload()
+                }
+            }
         })
-
-        if (result.isConfirmed) {
-          window.location.href = '/auth/login'
-        }
-      } else {
-        const result = await Swal.fire({
-          title: '¿Qué deseas hacer?',
-          text: 'Estás actualmente en sesión',
-          icon: 'question',
-          showDenyButton: true,
-          showCancelButton: true,
-          showConfirmButton: false,
-          denyButtonText: 'Cerrar sesión',
-          cancelButtonText: 'Cancelar',
-        })
-
-        if (result.isDenied) {
-          userStore.logout()
-          await Swal.fire('Sesión cerrada', 'Has cerrado sesión exitosamente', 'success')
-          window.location.reload()
-        }
-      }
-    })
-  }
+    }
 })
 
 </script>

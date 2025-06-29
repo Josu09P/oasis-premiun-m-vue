@@ -1,0 +1,9 @@
+  .form-create-update{
+    max-width: 98%;
+    margin: 0;
+    padding: 1.5rem;
+    background-color: #f5f5f585 !important;
+    border-radius: 5px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #dee2e6;
+  }

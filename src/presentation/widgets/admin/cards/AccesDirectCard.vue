@@ -1,21 +1,19 @@
 <template>
-  <div class="col-md-6">
-    <component
-      :is="disabled || !href ? 'div' : 'a'"
-      :href="!disabled ? href : undefined"
-      :class="[baseClass, dynamicClass]"
-      :style="dynamicStyle"
-      v-bind="linkProps"
-    >
-      <i :class="[icon, 'fa-3x', 'mb-3']"></i>
-      <h4>{{ title }}</h4>
-      <slot />
-    </component>
+  <div class="col-md-6 me-2">
+    <RouterLink :to="href" class="card-custom d-block text-decoration-none">
+      <component :is="disabled || !href ? 'div' : 'a'" :href="!disabled ? href : undefined"
+        :class="[baseClass, dynamicClass]" :style="dynamicStyle" v-bind="linkProps">
+        <i :class="[icon, 'fs-1', 'mb-3']"></i>
+        <h6>{{ title }}</h6>
+        <slot />
+      </component>
+    </RouterLink>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { RouterLink } from 'vue-router'
 
 interface Props {
   href?: string
@@ -29,8 +27,8 @@ interface Props {
 const props = defineProps<Props>()
 
 const href = computed(() => props.href ?? '#')
-const bgColor = computed(() => props.bgColor ?? 'bg-primary')
-const textColor = computed(() => props.textColor ?? 'text-white')
+const bgColor = computed(() => props.bgColor ?? 'transparent')
+const textColor = computed(() => props.textColor ?? 'text-dark')
 const disabled = computed(() => props.disabled ?? false)
 
 const isCustomBg = computed(() => bgColor.value.startsWith('#'))
@@ -59,7 +57,9 @@ const linkProps = computed(() => {
 <style scoped>
 a {
   text-decoration: none;
+  color: black;
 }
+
 .card-access-direct {
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.196);
 }
