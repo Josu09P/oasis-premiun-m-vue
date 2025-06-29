@@ -25,12 +25,14 @@
           <textarea v-model="description" class="form-control" id="description" rows="3" placeholder="Descripción" required></textarea>
         </div>
 
-        <div class="col-12">
+        <div class="col-12 position-relative">
           <label for="category" class="form-label">Categoría</label>
-          <select v-model="idCategory" id="category" class="form-select" required>
-            <option disabled value="">Selecciona una categoría</option>
-            <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
-          </select>
+          <input type="text" id="category" class="form-control" v-model="searchCategory" placeholder="Escribe para buscar una categoría" @focus="showDropdown = true" @blur="handleBlur" autocomplete="off" />
+          <ul v-if="showDropdown" class="list-group position-absolute w-100 z-3 mt-1" style="max-height: 200px; overflow-y: auto;">
+            <li v-for="cat in filteredCategories" :key="cat.id" class="list-group-item list-group-item-action" @mousedown.prevent="selectCategory(cat)">
+              {{ cat.name }}
+            </li>
+          </ul>
         </div>
 
         <div class="col-12">
@@ -54,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import Swal from 'sweetalert2'
 
@@ -80,6 +82,28 @@ const imageFiles = ref<(File | null)[]>([null, null, null, null])
 const imagePreviews = ref<(string | null)[]>([null, null, null, null])
 const categories = ref<CategoriesGetModel[]>([])
 
+const searchCategory = ref('')
+const showDropdown = ref(false)
+
+const filteredCategories = computed(() => {
+  const query = searchCategory.value.toLowerCase().trim()
+  return query === ''
+    ? categories.value
+    : categories.value.filter(cat => cat.name.toLowerCase().includes(query))
+})
+
+function selectCategory(cat: CategoriesGetModel) {
+  idCategory.value = cat.id
+  searchCategory.value = cat.name
+  showDropdown.value = false
+}
+
+function handleBlur() {
+  window.setTimeout(() => {
+    showDropdown.value = false
+  }, 150)
+}
+
 onMounted(async () => {
   try {
     categories.value = await fetchCategoriesUseCase()
@@ -89,6 +113,7 @@ onMounted(async () => {
     description.value = product.description
     price.value = product.price
     idCategory.value = typeof product.id_category === 'number' ? product.id_category : ''
+    searchCategory.value = categories.value.find(cat => cat.id === idCategory.value)?.name || ''
 
     imagePreviews.value = [
       product.image1 || null,
@@ -125,7 +150,6 @@ async function handleSubmit() {
 
   if (!confirm.isConfirmed) return
 
-  // Construir el payload de actualización
   const updatePayload = {
     name: name.value,
     description: description.value,
@@ -136,7 +160,6 @@ async function handleSubmit() {
       .filter(index => index !== null) as number[]
   }
 
-  // Filtrar solo los archivos seleccionados
   const filesToUpload = imageFiles.value.filter((file): file is File => !!file)
 
   try {
@@ -159,3 +182,4 @@ async function handleSubmit() {
 }
 </script>
 
+<style scoped></style>

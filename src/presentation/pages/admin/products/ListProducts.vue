@@ -34,8 +34,8 @@
         </div>
 
         <div class="content-2">
-            <div class="table-responsive" style="max-height: 600px; overflow-y: auto; margin-top: 0; max-width: 100%;">
-              <table class="table table-striped custom-table" style="table-layout: fixed; width: 100%; border:none; border-radius: 0;">
+           <div class="table-responsive" style="overflow-x: auto;">
+             <table class="table table-striped custom-table w-100">
                     <thead>
                         <tr>
                             <th style="width: 50px;">ID</th>
@@ -84,6 +84,10 @@
                     </tbody>
                 </table>
             </div>
+            <br>
+            <div class="cards-summary">
+                <ProductsFilterTotal :total="products.length" />
+            </div>
         </div>
     </DashboardLayout>
 </template>
@@ -101,6 +105,7 @@ import type { ProductGetModel } from '@/domain/models/ProductsModel'
 import { exportToExcel } from '@/utils/export/export-excel'
 import { exportToPDF } from '@/utils/export/export-pdf'
 import { deleteProductByIdUseCase } from '@/domain/usecases/products/DeleteProductUseCase'
+import ProductsFilterTotal from '@/presentation/widgets/admin/filters/ProductsFilterTotal.vue'
 
 const products = ref<ProductGetModel[]>([])
 const searchQuery = ref('')
@@ -229,6 +234,28 @@ function getProductImage(prod: ProductGetModel, n: number): string | undefined {
 </script>
 
 <style scoped>
+@media (max-width: 768px) {
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  .table {
+    font-size: 0.875rem; /* texto más compacto */
+  }
+
+  .table thead th,
+  .table tbody td {
+    white-space: nowrap;
+  }
+
+  .img-thumbnail {
+    max-width: 40px;
+    max-height: 40px;
+    object-fit: cover;
+  }
+}
+
+
 .search-toolbar {
     background-color: rgba(255, 255, 255, 0.85);
     border-radius: 12px;
@@ -244,6 +271,7 @@ function getProductImage(prod: ProductGetModel, n: number): string | undefined {
     align-items: center;
     height: 38px;
     width: 100%;
+    max-width: 38px;
     font-weight: 500;
     padding: 0 10px;
     border-radius: 8px;

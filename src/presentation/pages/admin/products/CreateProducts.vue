@@ -31,7 +31,7 @@
           <label for="category" class="form-label">Categoría</label>
           <input type="text" id="category" class="form-control" v-model="searchCategory"
             placeholder="Escribe para buscar una categoría" @focus="showDropdown = true"
-            @blur="() => setTimeout(() => showDropdown = false, 150)" autocomplete="off" />
+            @blur="handleBlur" autocomplete="off" />
           <ul v-if="showDropdown" class="list-group position-absolute w-100 z-3 mt-1"
             style="max-height: 200px; overflow-y: auto;">
             <li v-for="cat in filteredCategories" :key="cat.id" class="list-group-item list-group-item-action"
@@ -65,10 +65,12 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import Swal from 'sweetalert2'
-
+import '@/assets/css/form-create-update.css'
+import DashboardLayout from '@/presentation/layouts/DashboardLayout.vue'
 import { fetchCategoriesUseCase } from '@/domain/usecases/categories/GetCategoriesUseCase'
 import { createProductUseCase } from '@/domain/usecases/products/CreateProductUseCase'
 import type { CategoriesGetModel } from '@/domain/models/CategoriesModel'
+import BreadCrumb from '@/presentation/widgets/admin/links/BreadCrumb.vue'
 
 const name = ref('')
 const description = ref('')
@@ -76,6 +78,12 @@ const price = ref<number | null>(null)
 const idCategory = ref<number | ''>('') // Será el valor que se enviará
 const imageFiles = ref<(File | null)[]>([null, null, null, null])
 const imagePreviews = ref<(string | null)[]>([null, null, null, null])
+
+function handleBlur() {
+  window.setTimeout(() => {
+    showDropdown.value = false
+  }, 150)
+}
 
 // 🟨 Autocompletado de categoría
 const searchCategory = ref('')

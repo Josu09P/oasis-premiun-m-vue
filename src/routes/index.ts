@@ -66,6 +66,22 @@ const routes = [
         path: 'products/update/:id',
         component: () => import('@/presentation/pages/admin/products/UpdateProducts.vue')
       },
+      {
+        path: 'carousel',
+        component: () => import('@/presentation/pages/admin/carousel/AccessDirectCarousel.vue')
+      },
+      {
+        path: 'carousel/list',
+        component: () => import('@/presentation/pages/admin/carousel/ListCarousel.vue')
+      },
+      {
+        path: 'carousel/create',
+        component: () => import('@/presentation/pages/admin/carousel/CreateCarousel.vue')
+      },
+      {
+        path: 'carousel/update/:id',
+        component: () => import('@/presentation/pages/admin/carousel/UpdateCarousel.vue')
+      },
     ]
   },
   {
