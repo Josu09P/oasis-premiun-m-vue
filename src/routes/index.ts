@@ -79,6 +79,10 @@ const routes = [
         path: 'clima',
         component: () => import('@/presentation/pages/client/ClimaPage.vue')
       },
+      {
+        path: 'products',
+        component: () => import('@/presentation/pages/client/products/ViewProducts.vue')
+      },      
      /* {
         path: 'products',
         component: () => import('@/presentation/pages/client/ProductsPage.vue')
