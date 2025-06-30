@@ -30,12 +30,14 @@ export async function exportToPDF({ title, headers, data, fileName }: ExportPDFO
         valign: 'middle',
       },
       columnStyles: {
-        0: { cellWidth: 50 },
-        1: { cellWidth: 150 },
-        2: { cellWidth: 350 },
-        3: { cellWidth: 110 },
-        4: { cellWidth: 102 },
+        0: { cellWidth: 50 },   // ID
+        1: { cellWidth: 150 },  // Título
+        2: { cellWidth: 350 },  // Descripción
+        3: { cellWidth: 110 },  // Estado
+        4: { cellWidth: 102 },  // Creado
+        5: { cellWidth: 102 },  // Actualizado ✅ FALTABA ESTA
       },
+
       headStyles: {
         fillColor: [220, 53, 69],
         halign: 'center',

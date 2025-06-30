@@ -30,8 +30,8 @@
         <div class="col-12 position-relative">
           <label for="category" class="form-label">Categoría</label>
           <input type="text" id="category" class="form-control" v-model="searchCategory"
-            placeholder="Escribe para buscar una categoría" @focus="showDropdown = true"
-            @blur="handleBlur" autocomplete="off" />
+            placeholder="Escribe para buscar una categoría" @focus="showDropdown = true" @blur="handleBlur"
+            autocomplete="off" />
           <ul v-if="showDropdown" class="list-group position-absolute w-100 z-3 mt-1"
             style="max-height: 200px; overflow-y: auto;">
             <li v-for="cat in filteredCategories" :key="cat.id" class="list-group-item list-group-item-action"
@@ -47,11 +47,17 @@
           <div class="row g-2">
             <div class="col-6 col-md-3" v-for="(preview, index) in imagePreviews" :key="index">
               <input type="file" class="form-control" accept="image/*" @change="e => handleImageChange(e, index)" />
-              <img v-if="preview" :src="preview" alt="Vista previa" class="img-thumbnail mt-2" width="100" />
+              <div v-if="preview" class="position-relative mt-2">
+                <img :src="preview" alt="Vista previa" class="img-thumbnail" width="100" />
+                <button type="button" @click="removeImage(index)"
+                  class="btn btn-light btn-sm position-absolute top-0 end-0 d-flex align-items-center justify-content-center"
+                  style="width: 20px; height: 20px; border-radius: 50%; font-size: 12px; padding: 0; transform: translate(30%, -30%); box-shadow: 0 0 3px rgba(0,0,0,0.2);">
+                  ✕
+                </button>
+              </div>
             </div>
           </div>
         </div>
-
         <div class="d-flex justify-content-end">
           <button type="submit" class="btn btn-success w-auto mt-3">
             <i class="bi bi-floppy2 me-2"></i> Crear Producto
@@ -84,6 +90,12 @@ function handleBlur() {
     showDropdown.value = false
   }, 150)
 }
+
+function removeImage(index: number) {
+  imageFiles.value[index] = null
+  imagePreviews.value[index] = null
+}
+
 
 // 🟨 Autocompletado de categoría
 const searchCategory = ref('')

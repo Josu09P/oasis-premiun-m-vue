@@ -5,7 +5,7 @@
             { name: 'Lista productos', icon: 'bi bi-grid' },
         ]" />
 
-        <TitlePage title="Lista de productos"
+        <TitlePage title="Lista de categorias"
             paragraph="Listado general con gestión de productos, imágenes, categorías y control de stock." />
 
         <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap search-toolbar">
@@ -15,7 +15,8 @@
                 <button class="btn btn-success me-2" id="exportExcel" @click="exportProductsToExcel">
                     <i class="bi bi-filetype-xlsx me-1"></i>
                 </button>
-                <button class="btn btn-danger" id="exportPdf" @click="exportProductsToPDF">
+                <!--EN DESARROLLO, NO DISPONIBLE, NO TOCAR, ATT. JOSHO EL DEV-->
+                <button class="btn btn-danger" id="exportPdf" @click="exportProductsToPDF" style="display: none;">
                     <i class="bi bi-file-earmark-pdf me-1"></i>
                 </button>
             </div>
@@ -176,28 +177,47 @@ async function confirmDelete(id: number) {
 
 
 async function exportProductsToExcel() {
-    const data = filteredProducts.value.map(prod => ({
-        id: prod.id,
-        name: prod.name,
-        description: prod.description,
-        price: prod.price,
-        category: prod.category?.name || 'Sin categoría',
-        created_at: formatDate(prod.created_at || null),
-        updated_at: formatDate(prod.updated_at || null),
-    }))
+  const result = await Swal.fire({
+    icon: 'question',
+    title: 'Exportar productos',
+    text: '¿Deseas exportar los productos visibles a Excel?',
+    showCancelButton: true,
+    confirmButtonText: 'Exportar',
+    cancelButtonText: 'Cancelar',
+  })
 
-    const columns = [
-        { header: 'ID', key: 'id' },
-        { header: 'Nombre', key: 'name' },
-        { header: 'Descripción', key: 'description' },
-        { header: 'Precio', key: 'price' },
-        { header: 'Categoría', key: 'category' },
-        { header: 'Creado en', key: 'created_at' },
-        { header: 'Actualizado en', key: 'updated_at' },
-    ]
+  if (!result.isConfirmed) return
 
-    await exportToExcel(data, columns, 'REPORTE_PRODUCTOS.xlsx')
-    Swal.fire('Éxito', 'Archivo exportado correctamente.', 'success')
+  const data = filteredProducts.value.map(prod => ({
+    id: prod.id,
+    name: prod.name,
+    description: prod.description,
+    price: prod.price,
+    category: prod.category?.name || 'Sin categoría',
+    created_at: formatDate(prod.created_at || null),
+    updated_at: formatDate(prod.updated_at || null),
+    image1: prod.image1 ?? 'Sin imagen',
+    image2: prod.image2 ?? 'Sin imagen',
+    image3: prod.image3 ?? 'Sin imagen',
+    image4: prod.image4 ?? 'Sin imagen',
+  }))
+
+  const columns = [
+    { header: 'ID', key: 'id', width: 10 },
+    { header: 'Nombre', key: 'name', width: 30 },
+    { header: 'Descripción', key: 'description', width: 40 },
+    { header: 'Precio', key: 'price', width: 15 },
+    { header: 'Categoría', key: 'category', width: 25 },
+    { header: 'Creado en', key: 'created_at', width: 20 },
+    { header: 'Actualizado en', key: 'updated_at', width: 20 },
+    { header: 'Imagen 1', key: 'image1', width: 40 },
+    { header: 'Imagen 2', key: 'image2', width: 40 },
+    { header: 'Imagen 3', key: 'image3', width: 40 },
+    { header: 'Imagen 4', key: 'image4', width: 40 },
+  ]
+
+  await exportToExcel(data, columns, 'REPORTE_PRODUCTOS.xlsx')
+  Swal.fire('Éxito', 'Archivo exportado correctamente.', 'success')
 }
 
 async function exportProductsToPDF() {

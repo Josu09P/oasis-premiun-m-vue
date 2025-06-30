@@ -14,14 +14,11 @@
       <RouterLink class="nav-link text-orange" to="/admin/dashboard">
         <i class="bi bi-house-door-fill me-2"></i>Inicio
       </RouterLink>
-      <RouterLink class="nav-link text-dark" to="/admin/orders">
-        <i class="bi bi-clipboard-data me-2"></i>Pedidos
+      <RouterLink class="nav-link text-dark" to="/admin/categories">
+        <i class="bi bi-tags-fill me-2"></i>Categorías
       </RouterLink>
-      <RouterLink class="nav-link text-dark" to="/admin/stock">
-        <i class="bi bi-box-seam me-2"></i>Stock
-      </RouterLink>
-      <RouterLink class="nav-link text-dark" to="/admin/sales">
-        <i class="bi bi-graph-up-arrow me-2"></i>Ventas
+      <RouterLink class="nav-link text-dark" to="/admin/carousel">
+        <i class="bi bi-images me-2"></i>Carrusel
       </RouterLink>
       <RouterLink class="nav-link text-dark" to="/admin/products">
         <i class="bi bi-boxes me-2"></i>Productos
@@ -29,8 +26,14 @@
       <RouterLink class="nav-link text-dark" to="/admin/discount">
         <i class="bi bi-percent me-2"></i>Descuentos
       </RouterLink>
-      <RouterLink class="nav-link text-dark" to="/admin/carousel">
-        <i class="bi bi-images me-2"></i>Carrusel
+      <RouterLink class="nav-link text-dark" to="/admin/stock">
+        <i class="bi bi-box-seam me-2"></i>Stock
+      </RouterLink>
+      <RouterLink class="nav-link text-dark" to="/admin/orders">
+        <i class="bi bi-clipboard-data me-2"></i>Pedidos
+      </RouterLink>
+      <RouterLink class="nav-link text-dark" to="/admin/sales">
+        <i class="bi bi-graph-up-arrow me-2"></i>Ventas
       </RouterLink>
       <RouterLink class="nav-link text-dark" to="/admin/roles">
         <i class="bi bi-shield-lock-fill me-2"></i>Roles
@@ -40,9 +43,6 @@
       </RouterLink>
       <RouterLink class="nav-link text-dark" to="/admin/clients">
         <i class="bi bi-people-fill me-2"></i>Clientes
-      </RouterLink>
-      <RouterLink class="nav-link text-dark" to="/admin/categories">
-        <i class="bi bi-tags-fill me-2"></i>Categorías
       </RouterLink>
     </nav>
 

@@ -1,21 +1,22 @@
 <template>
   <DashboardLayout>
     <BreadCrumb :customRoutes="[
-      { name: 'Accesos directo', path: '/admin/carousels', icon: 'bi bi-house' },
+      { name: 'Accesos directo', path: '/admin/carousel', icon: 'bi bi-house' },
       { name: 'Lista carruseles', icon: 'bi bi-images' },
     ]" />
 
     <TitlePage title="Lista de Carruseles"
-               paragraph="Listado completo de carruseles creados, con gestión de imágenes y estados." />
+      paragraph="Listado completo de carruseles creados, con gestión de imágenes y estados." />
 
     <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap search-toolbar">
       <div class="container-btns d-flex jusfify-content-between">
         <ButtonWidget href="/admin/carousel/create" icon="bi bi-plus-circle" title="Crear carrusel"
-                      color="btn-dark me-2" />
+          color="btn-dark me-2" />
         <button class="btn btn-success me-2" @click="exportToExcelHandler">
           <i class="bi bi-filetype-xlsx me-1"></i>
         </button>
-        <button class="btn btn-danger" @click="exportToPDFHandler">
+        <!--EN MANTENIMIENTO POR ESO EL ATRIBUTO DE:  NONE  EN EL DISPLAY JIJIJI-->
+        <button class="btn btn-danger" @click="exportToPDFHandler" style="display: none;">
           <i class="bi bi-file-earmark-pdf me-1"></i>
         </button>
       </div>
@@ -27,13 +28,14 @@
           <option value="title">Por Título</option>
         </select>
         <input v-model="searchQuery" :placeholder="searchType === 'id' ? 'ID del carrusel' : 'Título del carrusel'"
-               class="form-control-search form-control-sm" type="text" :disabled="!searchType" />
+          class="form-control-search form-control-sm" type="text" :disabled="!searchType" />
       </div>
     </div>
 
     <div class="content-2">
-       <div class="table-responsive" style="max-height: 600px; overflow-y: auto; margin-top: 0; max-width: 100%;">
-        <table class="table table-striped custom-table" style="table-layout: fixed; width: 100%; border:none; border-radius: 0;">
+      <div class="table-responsive" style="max-height: 600px; overflow-y: auto; margin-top: 0; max-width: 100%;">
+        <table class="table table-striped custom-table"
+          style="table-layout: fixed; width: 100%; border:none; border-radius: 0;">
           <thead>
             <tr>
               <th style="width: 30px;">ID</th>
@@ -43,7 +45,7 @@
               <th class="text-center">Creado</th>
               <th class="text-center">Actualizado</th>
               <th style="width: 270px; text-align: center;">Imágenes</th>
-              <th style="width: 100px; text-align: center;">Acciones</th>
+              <th style="width: 200px; text-align: center;">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -61,19 +63,30 @@
               <td>
                 <div class="d-flex justify-content-around">
                   <img v-for="i in 5" :key="i" :src="getImageSrc(item, i) || '/src/assets/err/image-error.png'"
-                       class="img-thumbnail" width="45" height="45" />
+                    class="img-thumbnail" width="45" height="45" />
                 </div>
               </td>
               <td>
                 <div class="d-flex justify-content-center gap-2">
-                  <RouterLink :to="`/admin/carousel/update/${item.id}`" class="btn btn-warning btn-sm">
+                  <!-- Activar / Desactivar -->
+                  <button class="btn btn-secondary btn-sm" @click="handleToggleStatus(item)" style="width: 35px;"
+                    :title="item.is_enabled ? 'Desactivar' : 'Activar'">
+                    <i :class="item.is_enabled ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+                  </button>
+
+                  <!-- Editar -->
+                  <RouterLink :to="`/admin/carousel/update/${item.id}`" class="btn btn-warning btn-sm"
+                    style="width: 35px;">
                     <i class="bi bi-pen"></i>
                   </RouterLink>
-                  <button class="btn btn-danger btn-sm" @click="confirmDelete(item.id)"  style="width: 100%; max-width: 35px;">
+
+                  <!-- Eliminar -->
+                  <button class="btn btn-danger btn-sm" @click="confirmDelete(item.id)" style="width: 35px;">
                     <i class="bi bi-trash3"></i>
                   </button>
                 </div>
               </td>
+
             </tr>
             <tr v-if="filteredCarousels.length === 0">
               <td colspan="8" class="text-center">No se encontraron resultados</td>
@@ -81,6 +94,9 @@
           </tbody>
         </table>
       </div>
+       <div class="cards-summary">
+          <CarouselFilterTotal />
+        </div>
     </div>
   </DashboardLayout>
 </template>
@@ -99,6 +115,8 @@ import { exportToPDF } from '@/utils/export/export-pdf'
 import type { CarouselGetModel } from '@/domain/models/CarouselModel'
 import { fetchCarouselsAdminUseCase } from '@/domain/usecases/carousel/GetCarouselsAdminUseCase'
 import { deleteCarouselUseCase } from '@/domain/usecases/carousel/DeleteCarouselUseCase'
+import { toggleCarouselStatusUseCase } from '@/domain/usecases/carousel/ToggleCarouselStatusUseCase'
+import CarouselFilterTotal from '@/presentation/widgets/admin/filters/CarouselFilterTotal.vue'
 
 const carousels = ref<CarouselGetModel[]>([])
 const searchType = ref<'id' | 'title' | ''>('')
@@ -115,14 +133,57 @@ onMounted(async () => {
 
 const filteredCarousels = computed(() => {
   const query = searchQuery.value.toLowerCase().trim()
-  if (!query) return carousels.value
 
-  return carousels.value.filter(item => {
+  // 1. Copiar los carruseles para evitar mutaciones
+  let list = [...carousels.value]
+
+  // 2. Ordenar por fecha de creación descendente (más reciente primero)
+  list.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+
+  // 3. Aplicar filtro si hay búsqueda
+  if (!query) return list
+
+  return list.filter(item => {
     if (searchType.value === 'id') return item.id.toString().includes(query)
     if (searchType.value === 'title') return (item.title ?? '').toLowerCase().includes(query)
     return true
   })
 })
+
+async function handleToggleStatus(item: CarouselGetModel) {
+  const nuevoEstado = !item.is_enabled
+
+  // Mensaje diferente si se va a desactivar
+  const confirmMessage = nuevoEstado
+    ? '¿Deseas activar este carrusel?'
+    : '¿Deseas desactivar este carrusel? Esto puede afectar la vista del cliente. Asegúrate de tener otro carrusel activo.'
+
+  const confirm = await Swal.fire({
+    title: 'Confirmar cambio de estado',
+    text: confirmMessage,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: nuevoEstado ? 'Sí, activar' : 'Sí, desactivar',
+    cancelButtonText: 'Cancelar',
+    reverseButtons: true,
+  })
+
+  if (!confirm.isConfirmed) return
+
+  try {
+    await toggleCarouselStatusUseCase(item.id, nuevoEstado)
+    item.is_enabled = nuevoEstado // actualizar localmente
+    Swal.fire(
+      'Éxito',
+      `Carrusel ${nuevoEstado ? 'activado' : 'desactivado'} correctamente.`,
+      'success'
+    )
+  } catch (err) {
+    console.error(err)
+    Swal.fire('Error', 'No se pudo cambiar el estado del carrusel.', 'error')
+  }
+}
+
 
 function formatDate(dateString: string | null): string {
   if (!dateString) return 'Sin modificar'
@@ -163,27 +224,49 @@ async function confirmDelete(id: number) {
 }
 
 async function exportToExcelHandler() {
+  const result = await Swal.fire({
+    icon: 'question',
+    title: 'Exportar carruseles',
+    text: '¿Deseas exportar los carruseles visibles a Excel?',
+    showCancelButton: true,
+    confirmButtonText: 'Exportar',
+    cancelButtonText: 'Cancelar',
+  })
+
+  if (!result.isConfirmed) return
+
   const data = filteredCarousels.value.map(c => ({
     id: c.id,
     title: c.title,
     description: c.description,
     is_enabled: c.is_enabled ? 'Activo' : 'Inactivo',
     created_at: formatDate(c.createdAt),
-    updated_at: formatDate(c.updatedAt)
+    updated_at: formatDate(c.updatedAt),
+    image1: c.image1 ?? 'Sin imagen',
+    image2: c.image2 ?? 'Sin imagen',
+    image3: c.image3 ?? 'Sin imagen',
+    image4: c.image4 ?? 'Sin imagen',
+    image5: c.image5 ?? 'Sin imagen',
   }))
 
   const columns = [
-    { header: 'ID', key: 'id' },
-    { header: 'Título', key: 'title' },
-    { header: 'Descripción', key: 'description' },
-    { header: 'Estado', key: 'is_enabled' },
-    { header: 'Creado', key: 'created_at' },
-    { header: 'Actualizado', key: 'updated_at' }
+    { header: 'ID', key: 'id', width: 10 },
+    { header: 'Título', key: 'title', width: 30 },
+    { header: 'Descripción', key: 'description', width: 40 },
+    { header: 'Estado', key: 'is_enabled', width: 15 },
+    { header: 'Creado', key: 'created_at', width: 20 },
+    { header: 'Actualizado', key: 'updated_at', width: 20 },
+    { header: 'Imagen 1', key: 'image1', width: 40 },
+    { header: 'Imagen 2', key: 'image2', width: 40 },
+    { header: 'Imagen 3', key: 'image3', width: 40 },
+    { header: 'Imagen 4', key: 'image4', width: 40 },
+    { header: 'Imagen 5', key: 'image5', width: 40 },
   ]
 
   await exportToExcel(data, columns, 'REPORTE_CARRUSELES.xlsx')
   Swal.fire('Éxito', 'Excel exportado correctamente.', 'success')
 }
+
 
 async function exportToPDFHandler() {
   const headers = ['ID', 'Título', 'Descripción', 'Estado', 'Creado', 'Actualizado']
@@ -220,85 +303,85 @@ function getImageSrc(item: CarouselGetModel, i: number): string | undefined {
 
 <style scoped>
 .search-toolbar {
-    background-color: rgba(255, 255, 255, 0.85);
-    border-radius: 12px;
-    padding: 1rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
-    display: flex;
-    justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: space-between;
 }
 
 /* Asegúrate de que los botones se ajusten al contenido */
 .container-btns button {
-    display: inline-flex;
-    align-items: center;
-    height: 38px;
-    width: 100%;
-    max-width: 38px;
-    font-weight: 500;
-    padding: 0 10px;
-    border-radius: 8px;
-    white-space: nowrap;
-    /* Evita que el texto se rompa en varias líneas */
+  display: inline-flex;
+  align-items: center;
+  height: 38px;
+  width: 100%;
+  max-width: 38px;
+  font-weight: 500;
+  padding: 0 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+  /* Evita que el texto se rompa en varias líneas */
 }
 
 #exportExcel,
 #exportPdf {
-    display: inline-flex;
-    align-items: center;
-    height: 38px;
-    width: 100%;
-    max-width: 37px;
-    font-weight: 500;
-    padding: 0 10px;
-    border-radius: 8px;
-    white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  height: 38px;
+  width: 100%;
+  max-width: 37px;
+  font-weight: 500;
+  padding: 0 10px;
+  border-radius: 8px;
+  white-space: nowrap;
 }
 
 .form-select {
-    width: 100%;
-    max-width: 150px;
-    text-align: center;
+  width: 100%;
+  max-width: 150px;
+  text-align: center;
 }
 
 input.form-control-search {
-    width: 100%;
+  width: 100%;
 }
 
 /* Input y select modernos */
 .search-toolbar {
-    background-color: #f5f5f5a4;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+  background-color: #f5f5f5a4;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
 }
 
 .search-toolbar input,
 .search-toolbar select {
-    height: 38px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    padding: 0 10px;
-    background-color: #f5f5f585;
-    transition: border-color 0.2s ease-in-out;
+  height: 38px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 0 10px;
+  background-color: #f5f5f585;
+  transition: border-color 0.2s ease-in-out;
 }
 
 .search-toolbar input:focus,
 .search-toolbar select:focus {
-    outline: none;
-    border-color: #198754;
-    box-shadow: 0 0 0 0.15rem rgba(25, 135, 84, 0.25);
+  outline: none;
+  border-color: #198754;
+  box-shadow: 0 0 0 0.15rem rgba(25, 135, 84, 0.25);
 }
 
 /* Responsive gap */
 @media (max-width: 768px) {
-    .search-toolbar {
-        flex-direction: column;
-    }
+  .search-toolbar {
+    flex-direction: column;
+  }
 
-    .container-btns,
-    .search-toolbar .d-flex {
-        width: 100%;
-        justify-content: start;
-        flex-wrap: wrap;
-    }
+  .container-btns,
+  .search-toolbar .d-flex {
+    width: 100%;
+    justify-content: start;
+    flex-wrap: wrap;
+  }
 }
 </style>

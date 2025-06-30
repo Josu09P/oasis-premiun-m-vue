@@ -2,10 +2,11 @@ import { updateCarouselFormData } from "@/data/services/carousel/CarouselService
 import type { CarouselGetModel } from "@/domain/models/CarouselModel"
 
 interface UpdateCarouselPayload {
-  title?: string
-  description?: string
-  is_enabled?: boolean
-  images_to_update?: number[]
+  title?: string;
+  description?: string;
+  is_enabled?: boolean;
+  images_to_update?: number[];
+  images_to_delete: number[];
 }
 
 export async function updateCarouselUseCase(
@@ -13,5 +14,5 @@ export async function updateCarouselUseCase(
   data: UpdateCarouselPayload,
   files: File[] = []
 ): Promise<CarouselGetModel> {
-  return await updateCarouselFormData(id, data, files)
+  return await updateCarouselFormData(id, data, files);
 }

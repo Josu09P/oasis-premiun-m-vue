@@ -34,6 +34,7 @@ const routes = [
         component: () => import('@/presentation/pages/admin/dashboard.vue'),
 
       },
+      // CATEGORIAS
       {
         path: 'categories',
         component: () => import('@/presentation/pages/admin/categories/AccessDirectCategories.vue')
@@ -50,6 +51,7 @@ const routes = [
         path: 'categories/update/:id',
         component: () => import('@/presentation/pages/admin/categories/UpdateCategories.vue')
       },
+      //PRODUCTOS
       {
         path: 'products',
         component: () => import('@/presentation/pages/admin/products/AccessDirectProducts.vue')
@@ -66,21 +68,56 @@ const routes = [
         path: 'products/update/:id',
         component: () => import('@/presentation/pages/admin/products/UpdateProducts.vue')
       },
+      //CARRUSELES
       {
         path: 'carousel',
-        component: () => import('@/presentation/pages/admin/carousel/AccessDirectCarousel.vue')
+        component: () => import('@/presentation/pages/admin/carousels/AccessDirectCarousel.vue')
       },
       {
         path: 'carousel/list',
-        component: () => import('@/presentation/pages/admin/carousel/ListCarousel.vue')
+        component: () => import('@/presentation/pages/admin/carousels/ListCarousel.vue')
       },
       {
         path: 'carousel/create',
-        component: () => import('@/presentation/pages/admin/carousel/CreateCarousel.vue')
+        component: () => import('@/presentation/pages/admin/carousels/CreateCarousel.vue')
       },
       {
         path: 'carousel/update/:id',
-        component: () => import('@/presentation/pages/admin/carousel/UpdateCarousel.vue')
+        component: () => import('@/presentation/pages/admin/carousels/UpdateCarousel.vue')
+      },
+      // DESCUENTOS
+      {
+        path: 'discount',
+        component: () => import('@/presentation/pages/admin/discounts/AccessDirectDiscount.vue')
+      },
+      {
+        path: 'discount/list',
+        component: () => import('@/presentation/pages/admin/discounts/ListDiscount.vue')
+      },
+      {
+        path: 'discount/create',
+        component: () => import('@/presentation/pages/admin/discounts/CreateDiscount.vue')
+      },
+      {
+        path: 'discount/update/:id',
+        component: () => import('@/presentation/pages/admin/discounts/UpdateDiscount.vue')
+      },
+      //STOCK
+      {
+        path: 'stock',
+        component: () => import('@/presentation/pages/admin/stock/AccessDirectStock.vue')
+      },
+      {
+        path: 'stock/list',
+        component: () => import('@/presentation/pages/admin/stock/ListStock.vue')
+      },
+      {
+        path: 'stock/create',
+        component: () => import('@/presentation/pages/admin/stock/CreateStock.vue')
+      },
+      {
+        path: 'stock/update/:id',
+        component: () => import('@/presentation/pages/admin/stock/UpdateStock.vue')
       },
     ]
   },

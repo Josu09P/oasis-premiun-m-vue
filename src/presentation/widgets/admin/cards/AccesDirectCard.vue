@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-6 me-2">
+  <div class="col-md-6 me-2 container-card-access-direct">
     <RouterLink :to="href" class="card-custom d-block text-decoration-none">
       <component :is="disabled || !href ? 'div' : 'a'" :href="!disabled ? href : undefined"
         :class="[baseClass, dynamicClass]" :style="dynamicStyle" v-bind="linkProps">
@@ -62,5 +62,14 @@ a {
 
 .card-access-direct {
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.196);
+}
+.container-card-access-direct {
+  display: flex !important;
+  justify-content: center !important;
+}
+.card-custom {
+  width: 100%;
+  max-width: 575px;
+  margin-left: -8px !important;
 }
 </style>
