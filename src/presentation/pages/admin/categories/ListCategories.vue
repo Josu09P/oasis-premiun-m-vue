@@ -4,17 +4,17 @@
             { name: 'Accesos directo', path: '/admin/categories', icon: 'bi bi-house' },
             { name: 'Lista categorías', icon: 'bi bi-grid' },
         ]" />
-        <TitlePage title="Lista de productos"
+        <TitlePage title="Lista de Categorias"
             paragraph="Lista de todas las categorias y gestion en general de el modulo de categorias" />
         <!-- BUSCADOR -->
         <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap search-toolbar">
             <div class="container-btns d-flex jusfify-content-between">
                 <ButtonWidget href="/admin/categories/create" icon="bi bi-card-list" title="Crear categoría"
                     color="btn-dark me-2" />
-                <button class="btn btn-success me-2" id="exportExcel" @click="exportCategoriesToExcel">
+                <button class="btn btn-success me-2" id="exportExcel" @click="exportCategoriesToExcel" style="display: none;">
                     <i class="bi bi-filetype-xlsx me-1"></i>
                 </button>
-                <button class="btn btn-danger" id="exportPdf" @click="exportCategoriesToPDF">
+                <button class="btn btn-danger" id="exportPdf" @click="exportCategoriesToPDF" style="display: none;">
                     <i class="bi bi-file-earmark-pdf me-1"></i>
                 </button>
             </div>
@@ -86,7 +86,6 @@
                 <CategoriesFilterTotal />
             </div>
         </div>
-
     </DashboardLayout>
 </template>
 <script setup lang="ts">

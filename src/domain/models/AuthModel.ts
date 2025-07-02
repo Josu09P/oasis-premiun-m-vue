@@ -8,6 +8,6 @@ export interface RegisterModel {
     lastname: string;
     email: string;
     password: string;
-    phone: number;
+    phone: string;
     image?: string;
 }

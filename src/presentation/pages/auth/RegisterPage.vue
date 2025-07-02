@@ -23,9 +23,7 @@
         </div>
         <div class="mb-3">
           <label class="form-label">Teléfono</label>
-          <input v-model.number="form.phone" type="text" class="form-control" required maxlength="9" pattern="\d{9}"
-            placeholder="Max. 9 digitos" />
-
+          <input v-model="form.phone" type="text" class="form-control" required maxlength="9" pattern="\d{9}" />
         </div>
         <div class="mb-3">
           <label class="form-label">Contraseña</label>
@@ -59,7 +57,7 @@ const form = ref<RegisterModel>({
   name: '',
   lastname: '',
   email: '',
-  phone: null as unknown as number,
+  phone: '',
   password: ''
 })
 

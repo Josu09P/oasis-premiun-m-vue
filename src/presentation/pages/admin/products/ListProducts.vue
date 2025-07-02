@@ -5,14 +5,14 @@
             { name: 'Lista productos', icon: 'bi bi-grid' },
         ]" />
 
-        <TitlePage title="Lista de categorias"
+        <TitlePage title="Lista de productos creados"
             paragraph="Listado general con gestión de productos, imágenes, categorías y control de stock." />
 
         <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap search-toolbar">
             <div class="container-btns d-flex jusfify-content-between">
                 <ButtonWidget href="/admin/products/create" icon="bi bi-card-list" title="Crear producto"
                     color="btn-dark me-2" />
-                <button class="btn btn-success me-2" id="exportExcel" @click="exportProductsToExcel">
+                <button class="btn btn-success me-2" id="exportExcel" @click="exportProductsToExcel" style="display: none;">
                     <i class="bi bi-filetype-xlsx me-1"></i>
                 </button>
                 <!--EN DESARROLLO, NO DISPONIBLE, NO TOCAR, ATT. JOSHO EL DEV-->
@@ -85,7 +85,6 @@
                     </tbody>
                 </table>
             </div>
-            <br>
             <div class="cards-summary">
                 <ProductsFilterTotal :total="products.length" />
             </div>

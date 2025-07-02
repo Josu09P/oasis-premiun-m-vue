@@ -35,9 +35,6 @@
       <RouterLink class="nav-link text-dark" to="/admin/sales">
         <i class="bi bi-graph-up-arrow me-2"></i>Ventas
       </RouterLink>
-      <RouterLink class="nav-link text-dark" to="/admin/roles">
-        <i class="bi bi-shield-lock-fill me-2"></i>Roles
-      </RouterLink>
       <RouterLink class="nav-link text-dark" to="/admin/address">
         <i class="bi bi-geo-alt-fill me-2"></i>Direcciones
       </RouterLink>

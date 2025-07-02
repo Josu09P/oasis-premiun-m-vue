@@ -1,9 +1,5 @@
-<script setup lang="ts">
-defineProps<{ total: number }>()
-</script>
-
 <template>
-  <section class="section-categories-summary">
+  <section class="section-categories-summary" style="">
     <div class="container-summary rounded">
       <div class="container-title me-2">
         <h4 class="title">Productos Totales:</h4>
@@ -14,18 +10,6 @@ defineProps<{ total: number }>()
     </div>
   </section>
 </template>
-<style scoped>
-.container-summary {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 5px;
-  background-color: #ebe6e6;
-  padding: 10px 20px;
-}
-
-h4 {
-  font-size: 16px;
-  font-weight: 700;
-  margin: 0;
-}
-</style>
+<script setup lang="ts">
+defineProps<{ total: number }>()
+</script>

@@ -1,5 +1,5 @@
 <template>
-  <section class="section-categories-summary">
+  <section class="section-categories-summary" style="margin-top: -20px;">
     <div class="categories-header d-flex justify-content-between align-items-center">
       <button @click="toggleList" class="btn btn-sm custom-btn-dark" id="toggle-categories-btn" style="width: 100%; max-width: 300px;">
         <i class="fas fa-list me-1"></i>

@@ -29,18 +29,3 @@ onMounted(async () => {
 })
 </script>
 
-<style scoped>
-.container-summary {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 5px;
-  background-color: #ebe6e6;
-  padding: 10px 20px;
-}
-
-h4 {
-  font-size: 16px;
-  font-weight: 700;
-  margin: 0;
-}
-</style>

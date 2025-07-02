@@ -1,26 +1,27 @@
+
 <template>
     <DashboardLayout>
         <BreadCrumb :customRoutes="[
-            { name: 'Accesos directo', path: '/admin/categories', icon: 'bi bi-house' }
+            { name: 'Accesos directo', path: '/admin/client', icon: 'bi bi-house' }
         ]" />
         <TitlePage
         title = "Accesos directos"
-        paragraph= "Gestion general de las categorias"        
+        paragraph= "Gestion general de los usuarios registrados en el sistema"        
         />
         <CategoriesFilterList />
         <br>
         <div class="container-card-access-direct">
         <AccesDirectCard
-        href="/admin/categories/list"
-        icon="bi bi-card-list"
-        title="Lista de categorias"
+        href="/admin/users/list"
+        icon="bi bi-people"
+        title="Lista de usuarios"
         bgColor="#f5f5f585"
         textColor="white"
         />
         <AccesDirectCard
-        href="/admin/categories/create"
+        href="/admin/users/create"
         icon="bi bi-plus-square"
-        title="Crear nueva categoria"
+        title="Registrar un nuevo usuario"
         bgColor="#f5f5f585"
         textColor="white"
         />

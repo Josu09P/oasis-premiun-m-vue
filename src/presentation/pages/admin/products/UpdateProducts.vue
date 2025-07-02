@@ -59,7 +59,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import Swal from 'sweetalert2'
-
+import '@/assets/css/form-create-update.css'
 import DashboardLayout from '@/presentation/layouts/DashboardLayout.vue'
 import TitlePage from '@/presentation/widgets/admin/TitlePage.vue'
 import BreadCrumb from '@/presentation/widgets/admin/links/BreadCrumb.vue'

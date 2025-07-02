@@ -116,8 +116,28 @@ const routes = [
         component: () => import('@/presentation/pages/admin/stock/CreateStock.vue')
       },
       {
+        path: 'stock/add/:id',
+        component: () => import('@/presentation/pages/admin/stock/AddStock.vue')
+      },
+      {
         path: 'stock/update/:id',
         component: () => import('@/presentation/pages/admin/stock/UpdateStock.vue')
+      },
+      {
+        path: 'users',
+        component: () => import('@/presentation/pages/admin/users/AccessDirectUser.vue')
+      },
+      {
+        path: 'users/list',
+        component: () => import('@/presentation/pages/admin/users/ListUser.vue')
+      },
+      {
+        path: 'users/create',
+        component: () => import('@/presentation/pages/admin/users/CreateUser.vue')
+      },
+      {
+        path: 'users/update/:id',
+        component: () => import('@/presentation/pages/admin/users/UpdateUser.vue')
       },
     ]
   },
@@ -181,8 +201,8 @@ router.beforeEach((to, _from, next) => {
     return next('/auth/login')
   }
 
-  if (to.path.startsWith('/client') && (!isLoggedIn || store.role !== 'CLIENT')) {
-    return next('/auth/login')
+  if (to.path.startsWith('/client') && isLoggedIn && store.role !== 'CLIENT') {
+  return next('/auth/login')
   }
 
   if (to.path.startsWith('/auth') && isLoggedIn) {

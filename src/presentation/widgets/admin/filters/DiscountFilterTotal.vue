@@ -2,7 +2,7 @@
   <section class="section-categories-summary">
     <div class="container-summary rounded">
       <div class="container-title me-2">
-        <h4 class="title">Carruseles Totales:</h4>
+        <h4 class="title">Descuentos Totales:</h4>
       </div>
       <div class="results-container">
         <h4 class="total">: {{ totalDiscounts }}</h4>
@@ -29,18 +29,3 @@ onMounted(async () => {
 })
 </script>
 
-<style scoped>
-.container-summary {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 5px;
-  background-color: #ebe6e6;
-  padding: 10px 20px;
-}
-
-h4 {
-  font-size: 16px;
-  font-weight: 700;
-  margin: 0;
-}
-</style>

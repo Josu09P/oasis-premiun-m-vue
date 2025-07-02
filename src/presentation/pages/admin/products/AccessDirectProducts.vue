@@ -7,9 +7,7 @@
         title = "Accesos directos"
         paragraph= "Gestion general de productos"        
         />
-        <br>
         <ProductsFIlterList />
-        <br>
         <div class="container-card-access-direct">
         <AccesDirectCard
         href="/admin/products/list"

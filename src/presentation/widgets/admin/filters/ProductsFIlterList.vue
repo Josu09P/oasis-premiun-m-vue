@@ -144,7 +144,7 @@ function formatDate(dateStr: string | null) {
 <style scoped>
 .section-products-summary {
   width: 100%;
-  margin: 0 auto !important;
+  margin: -20px 0 20px 0 !important;
 }
 .products-header {
   padding: 5px;
