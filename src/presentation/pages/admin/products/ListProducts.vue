@@ -26,11 +26,21 @@
                     <option disabled value="">Buscar...</option>
                     <option value="id">Por Id</option>
                     <option value="name">Por Nombre</option>
+                    <option value="category">Por Categoría</option>
                 </select>
 
                 <input v-model="searchQuery"
-                    :placeholder="searchType === 'id' ? 'ID del producto' : searchType === 'name' ? 'Nombre del producto' : 'Escoge el tipo de búsqueda'"
-                    class="form-control-search form-control-sm" type="text" :disabled="!searchType" />
+  :placeholder="searchType === 'id' 
+      ? 'ID del producto' 
+      : searchType === 'name' 
+      ? 'Nombre del producto' 
+      : searchType === 'category'
+      ? 'Nombre de la categoría'
+      : 'Escoge el tipo de búsqueda'"
+  class="form-control-search form-control-sm"
+  type="text"
+  :disabled="!searchType" />
+
             </div>
         </div>
 
@@ -109,7 +119,7 @@ import ProductsFilterTotal from '@/presentation/widgets/admin/filters/ProductsFi
 
 const products = ref<ProductGetModel[]>([])
 const searchQuery = ref('')
-const searchType = ref<'id' | 'name' | ''>('')
+const searchType = ref<'id' | 'name' | 'category' | ''>('')
 
 onMounted(loadProducts)
 
@@ -131,14 +141,23 @@ function formatDate(dateString: string | null): string {
 }
 
 const filteredProducts = computed(() => {
-    const query = searchQuery.value.toLowerCase()
-    if (!query) return products.value
+  const query = searchQuery.value.toLowerCase().trim()
+  if (!query) return products.value
 
-    return products.value.filter(prod => {
-        if (searchType.value === 'id') return prod.id.toString().includes(query)
+  return products.value.filter(prod => {
+    switch (searchType.value) {
+      case 'id':
+        return prod.id.toString().includes(query)
+      case 'name':
         return prod.name.toLowerCase().includes(query)
-    })
+      case 'category':
+        return prod.category?.name.toLowerCase().includes(query) || false
+      default:
+        return true
+    }
+  })
 })
+
 
 async function confirmDelete(id: number) {
   const result = await Swal.fire({

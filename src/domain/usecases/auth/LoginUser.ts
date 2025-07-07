@@ -6,7 +6,12 @@ export async function LoginUser(params: LoginModel): Promise<string> {
   try {
     const response = await LoginServicesAuth(params);
 
-    const roleData = response.user.roles?.[0] || { id: '', route: '/' }
+    // Validación estricta
+    if (!response || !response.user || !response.token || !response.user.roles?.length) {
+      throw new Error("Credenciales inválidas");
+    }
+
+    const roleData = response.user.roles[0];
 
     const userStore = useUserStore();
     userStore.setUser({
@@ -18,10 +23,10 @@ export async function LoginUser(params: LoginModel): Promise<string> {
       route: roleData.route,
     });
 
-    return roleData.route || '/'; // ← retornamos la ruta de redirección
+    return roleData.route || '/';
 
   } catch (error) {
     console.error("Error en LoginUserUseCase:", error);
-    throw error;
+    throw new Error('Credenciales incorrectas o servidor no disponible');
   }
 }

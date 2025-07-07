@@ -77,6 +77,7 @@ import { fetchCategoriesUseCase } from '@/domain/usecases/categories/GetCategori
 import { createProductUseCase } from '@/domain/usecases/products/CreateProductUseCase'
 import type { CategoriesGetModel } from '@/domain/models/CategoriesModel'
 import BreadCrumb from '@/presentation/widgets/admin/links/BreadCrumb.vue'
+import TitlePage from '@/presentation/widgets/admin/TitlePage.vue'
 
 const name = ref('')
 const description = ref('')
