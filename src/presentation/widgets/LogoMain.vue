@@ -1,7 +1,8 @@
 <template>
     <a class="navbar-brand" href="/">
   <div class="logo-empresa">
-    <span class="note">Oasis</span><span class="nest">Premiun</span>
+    <img src="/src/assets/img/logo-oficial.png" alt="logo-ofixial" width="150" height="auto" />
+    <!--<span class="logo-1">Easy</span><span class="logo-2">Pantry</span>-->
   </div>
 </a>
 </template>
@@ -12,26 +13,26 @@
     text-align: center;
   }
 
-  .note {
+  .logo-1 {
     color: #d0dbd4;
     margin-right: 7px;
   }
 
-  .nest {
+  .logo-2 {
     margin-left: 7px;
     color: #6ca033;
     position: relative;
   }
 
-  .note,
-  .nest {
+  .logo-1,
+  .logo-2 {
     margin-top: -3px;
     display: inline-block;
     font-size: 34px;
     filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.73));
   }
 
-  .nest::before {
+  /* .logo-2::before {
     content: "";
     position: absolute;
     top: 6px;
@@ -42,11 +43,11 @@
     background-color: #2b5c18;
     z-index: 1;
     border-radius: 1rem;
-  }
+  }*/
 
   @media screen and (max-width: 768px) {
-    .note,
-    .nest {
+    .logo-1,
+    .logo-2 {
       margin-top: -3px;
       display: inline-block;
       font-size: 30px;

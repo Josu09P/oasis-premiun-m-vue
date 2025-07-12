@@ -1,16 +1,19 @@
 export interface CategoriesGetModel {
-    id: number;
-    name: string;
-    description: string;
-    image: string;
-    created_at?: string;
-    updated_at?: string;
+  id: number;
+  name: string;
+  description: string;
+  image?: string;
+  parent?: CategoriesGetModel | null;
+  children?: CategoriesGetModel[];
+  created_at?: string;
+  updated_at?: string;
 }
+
 
 export interface CategoriesPostModel {
     name: string;
     description: string;
-    image: string;
+    image?: string;
 }
 
 export interface CategoriesPutModel {

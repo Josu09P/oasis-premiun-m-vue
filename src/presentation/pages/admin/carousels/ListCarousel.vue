@@ -16,7 +16,7 @@
           <i class="bi bi-filetype-xlsx me-1"></i>
         </button>
         <!--EN MANTENIMIENTO POR ESO EL ATRIBUTO DE:  NONE  EN EL DISPLAY JIJIJI-->
-        <button class="btn btn-danger" @click="exportToPDFHandler" style="display: none;">
+        <button class="btn btn-danger" @click="exportToPDFHandler">
           <i class="bi bi-file-earmark-pdf me-1"></i>
         </button>
       </div>
